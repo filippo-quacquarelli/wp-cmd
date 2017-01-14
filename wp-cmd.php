@@ -127,12 +127,14 @@ class WP_CLI_CMD {
         if ( ! $db_name ) $db_name = $config_param_foldername[0];
 
         $db_user = $assoc_args['db_user'];
-
-        if ( ! $db_user ) $db_user = $this->db_user;
-
         $db_pass = $assoc_args['db_pass'];
 
-        if ( ! $db_pass ) $db_pass = $this->db_pass;
+        if ( ! $db_user || ! $db_pass ) {
+
+            $db_user = $this->db_user;
+            
+            $db_pass = $this->db_pass;
+        }
 
         $copy_folder = "cp -rvfa ./ ../%s";
 
