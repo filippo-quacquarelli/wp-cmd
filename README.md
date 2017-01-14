@@ -22,3 +22,13 @@ Il plugin esegue le seguenti operazioni:
 3. Creazione nuovo wp-config con le nuove credenziali
 4. Importazione vecchio db sul nuovo sito
 5. Sostituzione stringhe nel db appena importato da vecchio dominio a nuovo
+
+Esempio:
+Ovviamente dobbiamo aver installato wp-cli sul nostro sistema, una volta fatto ciò bisogna spostarsi nella cartella di nostro interesse che deve contenere un'installazione di wordpress funzionante ed installare questo plugin.
+
+1. cd /var/www/oldsite.com
+2. lanciamo il nostro comando wp-cli personalizzato: wp cmd copy newsite.com --server_path=/var/www
+
+A questo punto wp-cli eseguirà una serie di operazioni specificate sopra, se tutto funziona correttamente il risultato sarà una nuova directory presente in /var/www che ovviamente si chiamerà newsite.com con la nostra installazione di wordpress, il file wp-config.php presente all'interno avrà le stesse credenziali di accesso della directory oldsite.com, tranne per il db_name che sarà "newsite".
+
+Lanciato il comando abbiamo anche già creato il database "newsite" e sostituito le stringhe nel db da oldsite.com a newsite.com, non ci resta che entrare nel backend nel nostro nuovo sito ed aggiornare i permalink.  
