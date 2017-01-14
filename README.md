@@ -11,6 +11,8 @@ Esempio di utilizzo:
 
 Il flag --server_path è obbligatorio e serve a specificare il percorso della directory che contiene le nostre installazioni di wordpress, abbiamo a disposizione anche i seguenti flag --db_name, --db_user e --db_pass per specificare il valore delle costanti per la connessione al database presenti nel wp-config.php del nostro nuovo sito.
 
+Se il --db_pass ecc ecc non vengono specificati vengono usate le credenziali di accesso al db dell'installazione di wordpress copiata.
+
 Il plugin esegue le seguenti operazioni:
 
 1. Esportazione db vecchio sito
