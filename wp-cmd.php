@@ -3,7 +3,7 @@
  * Plugin Name: WP CMD
  * Description: wp-cli Interface
  * Author: Filippo Quacquarelli
- * Version: 0.5
+ * Version: 0.6
  */
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
@@ -65,7 +65,7 @@ class WP_CLI_CMD {
                                                             
         ";
 
-    static private function get_url() {
+    private static function get_url() {
         $array_url = array();
 
         $old_domain = get_site_url();
@@ -79,6 +79,8 @@ class WP_CLI_CMD {
         $array_url['base_url'] = $array_url['protocol'] . '://' . $array_url['host'];
 
         $array_url['old_domain'] = $old_domain;
+
+        $array_url['old_folder'] = basename($data_domain['path']);
 
         return $array_url;
     }
@@ -120,21 +122,19 @@ class WP_CLI_CMD {
 
         $path = $server_path . '/' . $foldername;
 
-        $routes = $this::get_url();
+        $routes = self::get_url();
 
         $db_name = $assoc_args['db_name'];
 
         if ( ! $db_name ) $db_name = $config_param_foldername[0];
 
         $db_user = $assoc_args['db_user'];
+
+        if ( ! $db_user ) $db_user = $this->db_user;
+
         $db_pass = $assoc_args['db_pass'];
 
-        if ( ! $db_user || ! $db_pass ) {
-
-            $db_user = $this->db_user;
-            
-            $db_pass = $this->db_pass;
-        }
+        if ( ! $db_pass ) $db_pass = $this->db_pass;
 
         $copy_folder = "cp -rvfa ./ ../%s";
 
@@ -146,7 +146,7 @@ class WP_CLI_CMD {
 
         $import_db = "db import $this->db_name.sql --path=$path";
 
-        $replace_db = "search-replace '" . $routes['old_domain'] . "' '". $routes['base_url'] ."/" . $foldername . "' --skip-columns=guid --path=$path";
+        $replace_db = "search-replace '" . $routes['old_folder'] . "' '". $foldername . "' --path=$path --all-tables";
 
         $options = array(
             'exit_error' => true, // Halt script execution on error.
